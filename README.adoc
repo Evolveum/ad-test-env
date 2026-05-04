@@ -1,0 +1,51 @@
+# Testing midPoint with AD resource
+
+This repository contains a simple midPoint instance configured to access Active Directory system.
+
+## Prerequisites
+
+. Docker Desktop
+. Running AD
+
+### How to run AD
+
+If necessary, the AD can be created by cloning https://github.com/splitbrain/vagrant-active-directory.git and running it by `vagrant up`.
+
+Note that the process may take quite a long time and require a few reboots of the virtual machine.
+
+After the installation, it should be possible to connect to the VM as described in https://github.com/splitbrain/vagrant-active-directory.
+
+NOTE: If you'd like to use a different AD installation, please change the connection parameters in `ad-test-env/midpoint_server/container_files/mp-home/post-initial-objects/100-resource-ad.xml`
+
+## Installation
+
+After AD machine is up and running, the you can start midPoint by running `docker compose up` in `ad-test-env` subdirectory.
+
+## Running
+
+MidPoint will run at `localhost:8080`.
+You can log into it as `administrator` with the password of `SUPER5ecr3t`.
+
+You should see users `administrator` and `jack` there, with `jack` having a single account (projection) on AD resource.
+
+## Testing REST interface
+
+Just run `get-user-jack.sh` and you should get the data about `jack` back.
+
+## Sending change password notification
+
+Try `notify-password-change.sh`. Currently, it will return an error message:
+
+[source,json]
+----
+{
+  "@ns" : "http://prism.evolveum.com/xml/ns/public/types-3",
+  "object" : {
+    "@ns" : "http://midpoint.evolveum.com/xml/ns/public/common/common-3",
+    "@type" : "c:OperationResultType",
+    "operation" : "notifyChange",
+    "status" : "fatal_error",
+    "message" : "No resource OID in dummy:null(null)"
+----
+
+but we'll fix that.
