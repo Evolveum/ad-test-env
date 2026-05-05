@@ -45,7 +45,7 @@ Try `notify-password-change.sh`. Currently, it will return an error message:
     "@type" : "c:OperationResultType",
     "operation" : "notifyChange",
     "status" : "fatal_error",
-    "message" : "No resource OID in dummy:null(null)"
+    "message" : "No OID in object delta ObjectDelta(ShadowType:null,MODIFY: PropertyDeltaImpl(credentials/password / value, REPLACE)) and no externally-supplied shadow is present as well."
 ----
 
 but we'll fix that.
