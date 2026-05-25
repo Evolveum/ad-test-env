@@ -11,7 +11,7 @@ services:
       - midpoint_data:/var/lib/postgresql/data
 
   data-init:
-    image: evolveum/midpoint:${MP_VER:-devel}-alpine
+    image: evolveum/midpoint:4.8-alpine-nightly
     command: >
       bash -c "
       cd /opt/midpoint ;
@@ -38,7 +38,7 @@ services:
       - midpoint_home:/opt/midpoint/var
 
   midpoint-server:
-    image: evolveum/midpoint:${MP_VER:-devel}-alpine
+    image: evolveum/midpoint:4.8-alpine-nightly
     hostname: midpoint
     depends_on:
       data-init:
@@ -63,6 +63,7 @@ services:
     volumes:
      - midpoint_home:/opt/midpoint/var
      - ./midpoint_server/container_files/mp-home:/opt/midpoint-dirs-docker-entrypoint/:ro
+     - ../mail-notifications.txt:/opt/midpoint/var/mail-notifications.txt
 
 networks:
   net:

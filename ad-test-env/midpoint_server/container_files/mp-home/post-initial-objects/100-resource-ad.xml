@@ -65,6 +65,7 @@
             </attribute>
             <attribute>
                 <ref>ri:sAMAccountName</ref>
+                <secondaryIdentifier>true</secondaryIdentifier>
                 <outbound>
                     <strength>strong</strength>
                     <source>
@@ -72,6 +73,28 @@
                     </source>
                 </outbound>
             </attribute>
+            <credentials>
+                <password>
+                    <inbound>
+                        <name>password-from-ad</name>
+                        <channel>http://midpoint.evolveum.com/xml/ns/public/common/channels-3#notifyChange</channel>
+                        <condition>
+                            <script>
+                                <code>
+                                    // This is to avoid the password being cleared in later waves, when sync delta is
+                                    // (intentionally) not taken into account.
+                                    midpoint.modelContext.projectionWave == 0
+                                </code>
+                            </script>
+                        </condition>
+                    </inbound>
+                    <outbound>
+                        <name>password-to-ad</name>
+                        <!-- We don't want to propagate password changes obtained via "notifyChange" mechanism back to the AD -->
+                        <exceptChannel>http://midpoint.evolveum.com/xml/ns/public/common/channels-3#notifyChange</exceptChannel>
+                    </outbound>
+                </password>
+            </credentials>
             <synchronization>
                 <reaction>
                     <situation>unlinked</situation>
