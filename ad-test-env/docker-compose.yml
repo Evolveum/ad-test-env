@@ -11,7 +11,7 @@ services:
       - midpoint_data:/var/lib/postgresql/data
 
   data-init:
-    image: evolveum/midpoint:4.8-alpine-nightly
+    image: evolveum/midpoint:4.10-alpine-nightly
     command: >
       bash -c "
       cd /opt/midpoint ;
@@ -38,7 +38,7 @@ services:
       - midpoint_home:/opt/midpoint/var
 
   midpoint-server:
-    image: evolveum/midpoint:4.8-alpine-nightly
+    image: evolveum/midpoint:4.10-alpine-nightly
     hostname: midpoint
     depends_on:
       data-init:
